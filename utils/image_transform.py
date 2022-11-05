@@ -142,7 +142,7 @@ class RandomScaleCrop(object):
             # random scale (short edge)
             #short_size = random.randint(int(self.base_size * 0.7), int(self.base_size * 2.0))
             
-            w, h = img.size
+            w, h, _ = img.size
             short_size = self.get_short_size(w, h)   
             if h > w:
  
