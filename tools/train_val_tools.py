@@ -37,7 +37,7 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
         #print(images.shape)
         images = images.to(device).float()
         #print(images.shape)
-        labels = labels.to(device).long()
+        labels = labels.to(device).float()
         output = model(images)
 
         #print(output.shape, labels.shape)
@@ -91,7 +91,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
             #print(images.shape)
             images = images.to(device).float()
             #print(images.shape)
-            labels = labels.to(device).long()
+            labels = labels.to(device).float()
             
             output = model(images)
 
