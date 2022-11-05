@@ -5,6 +5,7 @@ Author:   Ding Cheng(Deeachain)
 File:     cityscapes.py
 Github:   https://github.com/Deeachain
 """
+import os
 import os.path as osp
 import numpy as np
 import cv2
