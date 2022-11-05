@@ -46,7 +46,7 @@ def setup_seed(seed):
 
 
 def save_predict(output, gt, img_name, dataset, save_path, output_grey=False, output_color=True, gt_color=False):
-
+    pass
     
 
 
