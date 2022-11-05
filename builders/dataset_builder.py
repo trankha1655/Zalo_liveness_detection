@@ -17,7 +17,7 @@ def build_dataset_train(root, base_size, crop_size):
  
     
     TrainDataSet = LivenessTrainDataSet(data_dir, train_data_list, base_size=base_size, crop_size=crop_size,
-                                    mean=datas['mean'], std=datas['std'], ignore_label=0)   
+                                    ignore_label=0)   
     return TrainDataSet
 
 
@@ -32,11 +32,9 @@ def build_dataset_test(root, crop_size, gt=False)  :
        
     if gt:
         test_data_list = os.path.join(root, 'test_list.txt')
-        testdataset = LivenessValDataSet(data_dir, test_data_list, crop_size=crop_size, mean=datas['mean'],
-                                    std=datas['std'], ignore_label=0, RGB=RGB)
+        testdataset = LivenessValDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0, RGB=RGB)
     else:
         test_data_list = os.path.join(root, 'test_list.txt')
-        testdataset = LivenessTestDataSet(data_dir, test_data_list, crop_size=crop_size, mean=datas['mean'],
-                                    std=datas['std'], ignore_label=0, RGB=RGB)
+        testdataset = LivenessTestDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0, RGB=RGB)
     
     return testdataset
