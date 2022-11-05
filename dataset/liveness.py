@@ -45,7 +45,7 @@ class LivenessTrainDataSet(data.Dataset):
         if max_iters is not None:
             self.img_ids = self.img_ids * int(np.ceil(float(max_iters) / len(self.img_ids)))
         self.files = []
-        self.label_mapping =[[1,0], [0, 1]]
+        self.label_mapping =np.array( [[1,0], [0, 1]])
 
         for name in self.img_ids:
             img_file = os.path.join(root, name.split(',')[0])
@@ -113,7 +113,7 @@ class LivenessValDataSet(data.Dataset):
      
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
         self.files = []
-        self.label_mapping =[[1,0], [0, 1]]
+        self.label_mapping =np.array( [[1,0], [0, 1]])
 
         for name in self.img_ids:
             img_file = os.path.join(root, name.split(',')[0])
@@ -175,7 +175,7 @@ class LivenessTestDataSet(data.Dataset):
         
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
         self.files = []
-        self.label_mapping =[[1,0], [0, 1]]
+        
 
         for name in self.img_ids:
             img_file = os.path.join(root, name.split(',')[0])
