@@ -32,7 +32,7 @@ class LivenessTrainDataSet(data.Dataset):
     """
 
     def __init__(self, root='', list_path='', max_iters=None, base_size=720, crop_size=400, mean=(0., 0., 0.),
-                 std=(1., 1., 1.), ignore_label=255, RGB=True):
+                 std=(1., 1., 1.), ignore_label=255):
         self.root = root
         self.list_path = list_path
         self.base_size = base_size
@@ -103,7 +103,7 @@ class LivenessValDataSet(data.Dataset):
     """
 
     def __init__(self, root='', list_path='', crop_size=400, mean=(0., 0., 0.), std=(1., 1., 1.),
-                 ignore_label=255, RGB=True):
+                 ignore_label=255):
         self.root = root
         self.list_path = list_path
         self.crop_size = crop_size
@@ -165,7 +165,7 @@ class LivenessTestDataSet(data.Dataset):
     """
 
     def __init__(self, root='', list_path='', crop_size=400 , mean=(128, 128, 128), std=(128, 128, 128),
-                 ignore_label=255, RGB=True):
+                 ignore_label=255):
         self.root = root
         self.list_path = list_path
         self.crop_size = crop_size
