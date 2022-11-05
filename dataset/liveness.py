@@ -40,7 +40,7 @@ class LivenessTrainDataSet(data.Dataset):
         self.mean = mean
         self.std = std
         self.ignore_label = ignore_label
-        self.RGB= RGB
+        
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
         if max_iters is not None:
             self.img_ids = self.img_ids * int(np.ceil(float(max_iters) / len(self.img_ids)))
@@ -110,7 +110,7 @@ class LivenessValDataSet(data.Dataset):
         self.mean = mean
         self.std = std
         self.ignore_label = ignore_label
-        self.RGB = RGB
+     
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
         self.files = []
         self.label_mapping =[[1,0], [0, 1]]
@@ -172,7 +172,7 @@ class LivenessTestDataSet(data.Dataset):
         self.mean = mean
         self.std = std
         self.ignore_label = ignore_label
-        self.RGB = RGB
+        
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
         self.files = []
         self.label_mapping =[[1,0], [0, 1]]
