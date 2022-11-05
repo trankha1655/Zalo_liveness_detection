@@ -123,7 +123,7 @@ def main(args):
         os.makedirs(args.savedir)
 
     # save_seg_dir
-    args.save_seg_dir = os.path.join(args.savedir, args.predict_mode)
+    args.save_seg_dir = args.savedir
     if not os.path.exists(args.save_seg_dir) and args.local_rank == 0:
         os.makedirs(args.save_seg_dir)
 
