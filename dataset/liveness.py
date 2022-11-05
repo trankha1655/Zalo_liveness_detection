@@ -148,7 +148,7 @@ class LivenessValDataSet(data.Dataset):
                 tr.ToTensor()])
         except:
             print(datafilesp['img'])
-        sample = {'image': image, 'label': label}
+        sample = {'image': image}
         sampled = composed_transforms(sample)
         image, label = sampled['image'], sampled['label']
         

@@ -78,6 +78,8 @@ class RandomHorizontalFlip(object):
                 img.paste(im2)
                 return {'image': img}
 
+            return {'image': img}
+
 class RandomRotate(object):
     def __init__(self, degree):
         self.degree = degree
