@@ -94,7 +94,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
             
             output = model(images)
 
-        #print(output.shape, labels.shape)
+            #print(output.shape, labels.shape)
 
             loss = 0
             loss = criterion(output, labels)
