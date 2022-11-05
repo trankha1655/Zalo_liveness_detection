@@ -14,7 +14,7 @@ import torch
 import pickle
 from PIL import Image
 from torchvision import transforms
-#from utils import image_transform as tr
+from utils import image_transform as tr
 #from .crop import *
 
 
