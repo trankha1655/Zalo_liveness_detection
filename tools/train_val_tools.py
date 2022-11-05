@@ -81,8 +81,8 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
     total_batches = len(train_loader)
     pbar = tqdm(iterable=enumerate(val_loader),
                 total=total_batches,
-                desc='Predicting'),
-                )
+                desc='Predicting')  
+        
     for iteration, batch in pbar:
         with torch.no_grad():
 
