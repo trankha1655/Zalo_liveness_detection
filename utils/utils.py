@@ -13,7 +13,6 @@ import torch
 import torch.nn as nn
 
 
-
 def __init_weight(feature, conv_init, norm_layer, bn_eps, bn_momentum,
                   **kwargs):
     for name, m in feature.named_modules():
