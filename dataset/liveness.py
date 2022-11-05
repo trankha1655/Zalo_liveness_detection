@@ -84,7 +84,7 @@ class LivenessTrainDataSet(data.Dataset):
         sampled = composed_transforms(sample)
         image = sampled['image']
         
-        label = torch.from_numpy(label).long()
+        label = torch.from_numpy(label).float()
         #print(image.shape)
 
         return image, label, np.array(size), name
@@ -149,7 +149,7 @@ class LivenessValDataSet(data.Dataset):
         sampled = composed_transforms(sample)
         image, label = sampled['image'], sampled['label']
         
-        label = torch.from_numpy(label).long()
+        label = torch.from_numpy(label).float()
         
 
         return image, label, np.array(size), name
