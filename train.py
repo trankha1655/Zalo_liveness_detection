@@ -82,7 +82,7 @@ def main(args):
                                      gt=True)
 
     model = build_model(args.model, 
-                        args.classes,
+                        2,
                         args.pretrained, 
                         args.weight)
 
