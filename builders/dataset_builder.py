@@ -12,7 +12,7 @@ import pandas as pd
 from dataset.liveness import LivenessTrainDataSet, LivenessValDataSet, LivenessTestDataSet
 
 def build_dataset_train(root, base_size, crop_size):
-    data_dir = ''#os.path.join(root, dataset)
+    data_dir = root#os.path.join(root, dataset)
     train_data_list = os.path.join(root, 'datasets/train_list.txt')
  
     
@@ -22,7 +22,7 @@ def build_dataset_train(root, base_size, crop_size):
 
 
 def build_dataset_test(root, crop_size, gt=False)  :
-    data_dir = '' 
+    data_dir = root 
     train_data_list = os.path.join(root, 'datasets/train_list.txt')
   
     test_data_list = os.path.join(root, 'datasets/test_list.txt')

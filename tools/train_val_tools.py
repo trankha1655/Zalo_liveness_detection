@@ -1,4 +1,4 @@
-import tqdm
+from tqdm import tqdm
 
 
 def train(args, train_loader, model, criterion, optimizer, epoch, device):
