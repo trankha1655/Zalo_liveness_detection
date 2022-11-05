@@ -129,7 +129,7 @@ def main(args):
 
     recorder = record_log(args)
     
-    if args.resume == None and args.local_rank == 0:
+    if  args.local_rank == 0:
         recorder.record_args( str(netParams(model) / 1e6) + ' M', GLOBAL_SEED)
 
     # initialize the early_stopping object
