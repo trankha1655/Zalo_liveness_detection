@@ -11,8 +11,7 @@ import numpy as np
 from PIL import Image
 import torch
 import torch.nn as nn
-from utils.colorize_mask import cityscapes_colorize_mask, paris_colorize_mask, road_colorize_mask, \
-    austin_colorize_mask, isprs_colorize_mask
+
 
 
 def __init_weight(feature, conv_init, norm_layer, bn_eps, bn_momentum,
