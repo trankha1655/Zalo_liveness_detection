@@ -118,7 +118,7 @@ class RandomScaleCrop(object):
         self.crop_size = crop_size
         self.fill = fill
 
-    def get_short_size(w, h):
+    def get_short_size(self, w, h):
         
         temp = h
         if h > w:
@@ -142,7 +142,7 @@ class RandomScaleCrop(object):
             # random scale (short edge)
             #short_size = random.randint(int(self.base_size * 0.7), int(self.base_size * 2.0))
             
-            w, h, _ = img.size
+            w, h = img.size
             short_size = self.get_short_size(w, h)   
             if h > w:
  
