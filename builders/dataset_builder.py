@@ -31,10 +31,10 @@ def build_dataset_test(root, crop_size, gt=False)  :
     
        
     if gt:
-        test_data_list = os.path.join(root, 'test_list.txt')
+        test_data_list = os.path.join(root, 'datasets/test_list.txt')
         testdataset = LivenessValDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0)
     else:
-        test_data_list = os.path.join(root, 'test_list.txt')
+        test_data_list = os.path.join(root, 'datasets/test_list.txt')
         testdataset = LivenessTestDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0)
     
     return testdataset
