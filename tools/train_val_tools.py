@@ -19,7 +19,8 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
     total_batches = len(train_loader)
     pbar = tqdm(iterable=enumerate(train_loader),
                 total=total_batches,
-                desc='Epoch {}/{}'.format(epoch, args.max_epochs))
+                desc='Epoch {}/{}'.format(epoch, args.max_epochs)
+                )
     for iteration, batch in pbar:
         max_iter = args.max_epochs * total_batches
         cur_iter = (epoch - 1) * total_batches + iteration

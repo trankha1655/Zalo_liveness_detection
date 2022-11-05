@@ -186,7 +186,7 @@ def main(args):
             #                                save_result=True)
 
             loss, accuracy, precision, recall, f1 = val(args= args,
-                                                         val_loader= val_loader,
+                                                         val_loader= testLoader,
                                                          model= model, 
                                                          criterion= criterion, 
                                                          optimizer= optimizer, 
@@ -260,7 +260,7 @@ def main(args):
                     #                                save_result=False)
 
                     loss, accuracy, precision, recall, f1 = val(args= args,
-                                                         val_loader= val_loader,
+                                                         val_loader= testLoader,
                                                          model= model, 
                                                          criterion= criterion, 
                                                          optimizer= optimizer, 
