@@ -139,12 +139,15 @@ class LivenessValDataSet(data.Dataset):
         label = datafiles["label"]
         size = np.asarray(image).shape
         name = datafiles["name"]
-        composed_transforms = transforms.Compose([
-            tr.RandomScaleCrop( crop_size=self.crop_size, fill=0),
-            #tr.FixScaleCrop(crop_size=self.crop_size),
-            # tr.FixedResize(size=(1024,512)),
-            tr.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-            tr.ToTensor()])
+        try:
+            composed_transforms = transforms.Compose([
+                tr.RandomScaleCrop( crop_size=self.crop_size, fill=0),
+                #tr.FixScaleCrop(crop_size=self.crop_size),
+                # tr.FixedResize(size=(1024,512)),
+                tr.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+                tr.ToTensor()])
+        except:
+            print(datafilesp['img'])
         sample = {'image': image, 'label': label}
         sampled = composed_transforms(sample)
         image, label = sampled['image'], sampled['label']
