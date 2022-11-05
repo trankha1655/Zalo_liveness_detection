@@ -110,7 +110,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
         #get metrics of a batch then 
         acc, pre, recall, f1 = metrics.addBatch(target = gt, predict= output)
 
-        pbar.set_postfix({'loss': loss.item(), 'accuracy'= acc})
+        pbar.set_postfix({'loss': loss.item(), 'accuracy': acc})
 
     average_epoch_loss_train = sum(epoch_loss) / len(epoch_loss)
 
