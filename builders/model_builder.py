@@ -11,7 +11,7 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 from collections import OrderedDict
 from model.inception_resnetv2 import Inception_ResNetv2
-from model.mobilenetv2 import MobileNet2
+from model.mobilenetv2 import MobileNetv2
 from model.mobilenetv3 import mobilenetv3_large, mobilenetv3_small
 
 
@@ -38,7 +38,7 @@ def build_model(model_name,
     elif model_name == 'MobileNetv3_large':
         model = mobilenetv3_large(num_classes ==num_classes)
     elif model_name == 'MobileNetv2':
-        model = MobileNet2(num_classes=num_classes)
+        model = MobileNetv2(num_classes=num_classes)
     else:
         raise TypeError("No model name is", model_name)  
     
