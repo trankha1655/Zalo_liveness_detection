@@ -114,7 +114,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
         output = torch.argmax(output, 1).long()
         output = np.asarray(output.cpu(), dtype=np.uint8)
         #get metrics of a batch then 
-        acc, pre, recall, f1 = metrics.addBatch(target = gt, predict= output)
+        acc, pre, recall, f1 = metrics.addBatch(gt, output)
 
         pbar.set_postfix({'loss': loss.item(), 'accuracy': acc})
 
