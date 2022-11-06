@@ -27,7 +27,7 @@ def eval_metric(Accuracy, Precision, Recall, F1):
     print(t.get_string(title="Validation results"))
     print('\nAcc:{:.4f}        Precision:{:.4f}'
           '\nRecall:{:.4f}     F1:{:.4f}'
-         .format(A, P, R, F1))
+         .format(A, P, R, F))
           
 
     result = args.save_seg_dir + '/results.txt'
@@ -35,9 +35,9 @@ def eval_metric(Accuracy, Precision, Recall, F1):
         f.write(str(t.get_string(title="Validation results")))
         f.write('\nAcc:{:.4f}        Precision:{:.4f}'
                 '\nRecall:{:.4f}     F1:{:.4f}'
-                .format(A, P, R, F1))
+                .format(A, P, R, F))
 
-    return A, P, R, F1
+    return A, P, R, F
 
 
 
