@@ -150,7 +150,7 @@ class LivenessValDataSet(data.Dataset):
             print(datafilesp['img'])
         sample = {'image': image}
         sampled = composed_transforms(sample)
-        image, label = sampled['image'], sampled['label']
+        image, label = sampled['image']
         
         label = torch.from_numpy(label).float()
         
