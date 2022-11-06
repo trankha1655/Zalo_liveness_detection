@@ -23,6 +23,8 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
                 desc='Epoch {}/{}'.format(epoch, args.max_epochs)
                 )
     for iteration, batch in pbar:
+        if iteration != 1:
+            continue
         max_iter = args.max_epochs * total_batches
         cur_iter = (epoch - 1) * total_batches + iteration
         scheduler = PolyLR(optimizer,
@@ -60,8 +62,7 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
         epoch_loss.append(loss.item())
         pbar.set_postfix({'loss': loss.item()} )
 
-        if iteration != 1:
-            continue
+        
         
 
     average_epoch_loss_train = sum(epoch_loss) / len(epoch_loss)
