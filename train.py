@@ -210,7 +210,7 @@ def main(args):
                                             epoch = epoch, 
                                             lr= lr, 
                                             lossTr= lossTr, 
-                                            val_loss= val_loss, 
+                                            val_loss= loss, 
                                             Acc= accuracy, 
                                             Pre= precision, 
                                             Rec= recall, 
