@@ -10,7 +10,7 @@ def eval_metric(args, Accuracy, Precision, Recall, F1):
     # Recall = metrics.r
     # F1 = 2 * ((Precision * Recall) / (Precision + Recall))
     # Accuracy = metrics.acc
-    print(Accuracy, Precision, Recall, F1)
+    #print(Accuracy, Precision, Recall, F1)
     Precision = np.around(Precision, decimals=4)
     Recall = np.around(Recall, decimals=4)
     Accuracy = np.around(Accuracy, decimals=4)
@@ -19,7 +19,7 @@ def eval_metric(args, Accuracy, Precision, Recall, F1):
     P = np.sum(Precision[:]) / len(Precision[:])
     R = np.sum(Recall[:]) / len(Recall[:])
     F = np.sum(F1[:]) / len(F1[:])
-    A = np.sum(Accuracy[:]) / len(Accuracy[:])
+    A = np.sum(Accuracy[:])
 
     t = PrettyTable(['label_index', 'label_name', 'Accuracy', 'Precision', 'Recall', 'F1'])
     for key in class_dict_df:
