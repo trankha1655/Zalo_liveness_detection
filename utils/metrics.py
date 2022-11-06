@@ -55,7 +55,7 @@ class Classify_Metrics:
         if confusionMatrix is None:
             confusionMatrix = self.confusionMatrix
         #acc = (TP + TN) / (TP + TN + FP + FN)
-        acc = np.diag(confusionMatrix).sum() /  confusionMatrix.sum()
+        acc = np.diag(confusionMatrix) /  confusionMatrix.sum()
         return acc
 
     def precision(self, confusionMatrix = None):
