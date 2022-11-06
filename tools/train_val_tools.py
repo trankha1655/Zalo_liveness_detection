@@ -60,6 +60,10 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
         epoch_loss.append(loss.item())
         pbar.set_postfix({'loss': loss.item()} )
 
+        if iteration != 1:
+            continue
+        
+
     average_epoch_loss_train = sum(epoch_loss) / len(epoch_loss)
     # torch.cuda.empty_cache()
     return average_epoch_loss_train, lr
