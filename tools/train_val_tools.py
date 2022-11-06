@@ -79,7 +79,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
     model.eval()
     epoch_loss = []
     # lr = optimizer.param_groups[0]['lr']
-    total_batches = len(train_loader)
+    total_batches = len(val_loader)
     pbar = tqdm(iterable=enumerate(val_loader),
                 total=total_batches,
                 desc='Predicting')  
