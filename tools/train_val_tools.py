@@ -122,7 +122,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
 
     average_epoch_loss_train = sum(epoch_loss) / len(epoch_loss)
 
-    average_epoch_loss_train, accuracy, precision, recall, f1 = metrics.get_metrics()
+    accuracy, precision, recall, f1 = metrics.get_metrics()
 
     # torch.cuda.empty_cache()
     return average_epoch_loss_train, accuracy, precision, recall, f1
