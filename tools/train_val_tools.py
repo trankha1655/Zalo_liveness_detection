@@ -16,7 +16,7 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
 
     model.train()
     epoch_loss = []
-    # lr = optimizer.param_groups[0]['lr']
+    lr = optimizer.param_groups[0]['lr']
     total_batches = len(train_loader)
     pbar = tqdm(iterable=enumerate(train_loader),
                 total=total_batches,
@@ -123,6 +123,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
     average_epoch_loss_train = sum(epoch_loss) / len(epoch_loss)
 
     accuracy, precision, recall, f1 = metrics.get_metrics()
+    
 
     # torch.cuda.empty_cache()
     return average_epoch_loss_train, accuracy, precision, recall, f1

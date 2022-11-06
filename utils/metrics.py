@@ -1,9 +1,54 @@
 
 import numpy as np
+
+def eval_metric(Accuracy, Precision, Recall, F1):
+    class_dict_df ={0: 'Fake', 1: 'Real'}
+    
+    #Accuracy, Precision, Recall, F1 = metrics.get_metrics()
+
+    # Precision = metrics.p
+    # Recall = metrics.r
+    # F1 = 2 * ((Precision * Recall) / (Precision + Recall))
+    # Accuracy = metrics.acc
+
+    Precision = np.around(Precision, decimals=4)
+    Recall = np.around(Recall, decimals=4)
+    Accuracy = np.around(Accuracy, decimals=4)
+    F1 = np.around(F1, decimals=4)
+
+    P = np.sum(Precision[:]) / len(Precision[:])
+    R = np.sum(Recall[:]) / len(Recall[:])
+    F = np.sum(F1[:]) / len(F1[:])
+    A = np.sum(Accuracy[:]) / len(Accuracy[:])
+
+    t = PrettyTable(['label_index', 'label_name', 'Accuracy', 'Precision', 'Recall', 'F1'])
+    for key in PerCiou_set:
+        t.add_row([key, class_dict_df[key], Accuracy[key], Precision[key], Recall[key], F1[key]])
+    print(t.get_string(title="Validation results"))
+    print('\nAcc:{:.4f}        Precision:{:.4f}'
+          '\nRecall:{:.4f}     F1:{:.4f}'
+         .format(A, P, R, F1))
+          
+
+    result = args.save_seg_dir + '/results.txt'
+    with open(result, 'w') as f:
+        f.write(str(t.get_string(title="Validation results")))
+        f.write('\nAcc:{:.4f}        Precision:{:.4f}'
+                '\nRecall:{:.4f}     F1:{:.4f}'
+                .format(A, P, R, F1))
+
+    return A, P, R, F1
+
+
+
 class Classify_Metrics:
     def __init__(self, numClass):
         self.confusionMatrix = np.zeros((numClass, numClass))
         self.numClass = numClass
+        self.p = 0
+        self.acc = 0
+        self.r = 0
+        self.f1 = 0
 
     def accuracy(self, confusionMatrix= None):
 
@@ -61,7 +106,9 @@ class Classify_Metrics:
         r = self.recall(temp)
         acc = self.accuracy(temp)
         f1 = self.f1_score(p, r)
-        return acc, p, r, f1
+        if temp is None:
+            return eval_metric(acc, p, r, f1)
+            #return acc, p, r, f1
 
     
 
