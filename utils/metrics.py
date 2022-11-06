@@ -22,7 +22,7 @@ def eval_metric(Accuracy, Precision, Recall, F1):
     A = np.sum(Accuracy[:]) / len(Accuracy[:])
 
     t = PrettyTable(['label_index', 'label_name', 'Accuracy', 'Precision', 'Recall', 'F1'])
-    for key in PerCiou_set:
+    for key in class_dict_df:
         t.add_row([key, class_dict_df[key], Accuracy[key], Precision[key], Recall[key], F1[key]])
     print(t.get_string(title="Validation results"))
     print('\nAcc:{:.4f}        Precision:{:.4f}'
