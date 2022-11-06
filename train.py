@@ -93,7 +93,7 @@ def main(args):
 
     # define loss function, respectively
     criterion = nn.CrossEntropyLoss()
-    metrics = Classify_Metrics
+    
     # move model and criterion on cuda
     if args.cuda:
         
@@ -189,7 +189,7 @@ def main(args):
             #                                criterion=criterion,
             #                                mode=args.predict_type,
             #                                save_result=True)
-
+            metrics = Classify_Metrics(2)
             loss, accuracy, precision, recall, f1 = val(args= args,
                                                          val_loader= testLoader,
                                                          model= model, 
