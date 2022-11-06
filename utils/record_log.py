@@ -39,7 +39,7 @@ class record_log():
         return logger, lines
 
     def record_trainVal_log(self, logger, epoch, lr, lossTr, val_loss, Acc, Pre, Rec, F1):
-        logger.write("{}\t{:.6f}\t{:.4f}\t\t{:.4f}\t\t{:.4f}\t\t{:.4f}\t\t{:.4f}\t{:.4f}\n".format(
+        logger.write("{}\t{:.6f}\t{:.4f}\t\t{:.4f}\t\t{:.4f}\t\t{:.4f}\t\t{:.4f}\t\t{:.4f}\n".format(
             epoch, lr, lossTr, val_loss, Acc, Pre, Rec, F1 ))
         logger.flush()
         print("Epoch {}  lr={:.6f}  Train Loss={:.4f}  Val Loss={:.4f}".format(epoch, lr, lossTr, val_loss))
