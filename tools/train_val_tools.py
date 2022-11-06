@@ -22,9 +22,9 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
                 total=total_batches,
                 desc='Epoch {}/{}'.format(epoch, args.max_epochs)
                 )
+    return 0, 0
     for iteration, batch in pbar:
-        if iteration != 1:
-            continue
+        
         max_iter = args.max_epochs * total_batches
         cur_iter = (epoch - 1) * total_batches + iteration
         scheduler = PolyLR(optimizer,
