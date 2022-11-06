@@ -100,7 +100,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
 
             loss = 0
             loss = criterion(output, labels)
-            metrics.addBatch()
+            
             
             epoch_loss.append(loss.item())
             
