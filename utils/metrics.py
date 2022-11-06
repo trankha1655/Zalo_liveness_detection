@@ -49,7 +49,7 @@ class Classify_Metrics:
         temp = self.genConfusionMatrix(target, predict)
         self.confusionMatrix += temp
 
-        return get_metrics(target, predict)
+        return self.get_metrics(target, predict)
 
     def get_metrics(self, target = None, predict = None):
 
