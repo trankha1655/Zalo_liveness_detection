@@ -178,23 +178,42 @@ class MobileNet2(nn.Module):
         return F.log_softmax(x, dim=1) #TODO not needed(?)
 
 
+def MobileNetv2(num_classes= 1000):
+    model = MobileNet2(num_classes = num_classes)
+    try:
+        checkpoint = torch.load("../mobilenetv2.pth.tar", map_location ='cpu')
+
+        weight_dict = {}
+        for x in checkpoint['state_dict'].keys():
+            if 'fc' in x:
+                weight_dict[x[7:]] = model.state_dict()[x[7:]]
+            else:
+                weight_dict[x[7:]] = checkpoint['state_dict'][x] 
+        model.load_state_dict(weight_dict)
+        print("Loaded weight from model/model_best.pth.tar!")
+    except:
+        print("Loaded model without pretrained!")
+    return model
+
 # if __name__ == "__main__":
 #     """Testing
 #     """
-#     return 
-#     model1 = MobileNet2()
-#     print(model1)
-#     model2 = MobileNet2(scale=0.35)
-#     print(model2)
-#     model3 = MobileNet2(in_channels=2, num_classes=10)
-#     print(model3)
-#     x = torch.randn(1, 2, 224, 224)
-#     print(model3(x))
-#     model4_size = 32 * 10
-#     model4 = MobileNet2(input_size=model4_size, num_classes=10)
-#     print(model4)
-#     x2 = torch.randn(1, 3, model4_size, model4_size)
-#     print(model4(x2))
-#     model5 = MobileNet2(input_size=196, num_classes=10)
-#     x3 = torch.randn(1, 3, 196, 196)
-#     print(model5(x3))  # fail
+    
+#     model = MobileNet2()
+
+#     checkpoint = torch.load("model_best.pth.tar", map_location ='cpu')
+#     print(checkpoint.keys())
+#     # for x in checkpoint['state_dict'].keys():
+#     #     print(x)
+#     print(model1.state_dict()['bn_last.running_mean'])
+#     weight_dict = {}
+#     for x in checkpoint['state_dict'].keys():
+#         if 'fc' in x:
+#             weight_dict[x[7:]] = model1.state_dict()[x[7:]]
+#         weight_dict[x[7:]] = checkpoint['state_dict'][x] 
+#     model1.load_state_dict(weight_dict)
+    
+
+    
+
+
