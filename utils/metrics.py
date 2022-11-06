@@ -109,7 +109,7 @@ class Classify_Metrics:
         if temp is None:
             return eval_metric(acc, p, r, f1)
         
-        return acc
+        return np.sum(acc)
 
     
 
