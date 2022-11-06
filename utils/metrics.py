@@ -10,7 +10,7 @@ def eval_metric(Accuracy, Precision, Recall, F1):
     # Recall = metrics.r
     # F1 = 2 * ((Precision * Recall) / (Precision + Recall))
     # Accuracy = metrics.acc
-
+    print(Accuracy, Precision, Recall, F1)
     Precision = np.around(Precision, decimals=4)
     Recall = np.around(Recall, decimals=4)
     Accuracy = np.around(Accuracy, decimals=4)
