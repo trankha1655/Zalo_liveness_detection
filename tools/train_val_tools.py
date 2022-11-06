@@ -92,7 +92,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
         
     for iteration, batch in pbar:
         if iteration > 2:
-            continue
+            break
         with torch.no_grad():
 
             images, labels, _, _ = batch
