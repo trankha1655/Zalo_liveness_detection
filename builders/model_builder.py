@@ -11,6 +11,8 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 from collections import OrderedDict
 from model.inception_resnetv2 import Inception_ResNetv2
+from model.mobilenetv2 import MobileNet2
+from model.mobilenetv3 import mobilenetv3_large, mobilenetv3_small
 
 
 
@@ -31,14 +33,17 @@ def build_model(model_name,
         model = Inception_ResNetv2(classes=num_classes)
     elif model_name == 'FCN_ResNet':
         model = FCN_ResNet(num_classes=num_classes, backbone=backbone, out_stride=out_stride, mult_grid=mult_grid)
-    elif model_name == 'SegNet':
-        model = SegNet(classes=num_classes)
-    elif model_name == 'UNet':
-        model = UNet(num_classes=num_classes)
-    elif model_name == 'BiSeNet':
-        model = BiSeNet(num_classes=num_classes, backbone=backbone)
+    elif model_name == 'MobileNetv3_small':
+        model = mobilenetv3_small(num_classes ==num_classes)
+    elif model_name == 'MobileNetv3_large':
+        model = mobilenetv3_large(num_classes ==num_classes)
+    elif model_name == 'MobileNetv2':
+        model = MobileNet2(num_classes=num_classes)
+    elif:
+        raise TypeError("No model name is", model_name)  
     
     
+
     if pretrained:
         checkpoint = torch.load(checkpoint_path)
         model.load_state_dict(checkpoint)

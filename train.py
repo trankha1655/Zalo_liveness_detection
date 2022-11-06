@@ -30,7 +30,9 @@ GLOBAL_SEED = 88
 def parse_args():
     parser = ArgumentParser(description='Liveness Detection with PyTorch')
     # model and dataset
-    parser.add_argument('--model', type=str, default="Inception_Resnetv2", help="model name")
+    parser.add_argument('--model', type=str, default="MobileNetv2",
+                            choices=['Inception_Resnetv2', 'MobileNetv2', 'MobileNetv3_small', 'MobileNetv3_large'], 
+                            help="model name")
     parser.add_argument('--pretrained', action='store_true',
                         help="whether choice backbone pretrained on imagenet")
    
@@ -80,6 +82,9 @@ def main(args):
     testdataset = build_dataset_test(args.root, 
                                      args.crop_size,
                                      gt=True)
+    # Default size image of MobileNet model
+    if 'Mobile' in args.model:
+        args.crop_size = 224
 
     model = build_model(args.model, 
                         2,
