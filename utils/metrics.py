@@ -7,7 +7,7 @@ class Classify_Metrics:
 
     def accuracy(self, confusionMatrix= None):
 
-        if confusionMatrix is not None:
+        if confusionMatrix is None:
             confusionMatrix = self.confusionMatrix
         #acc = (TP + TN) / (TP + TN + FP + FN)
         acc = np.diag(confusionMatrix).sum() /  confusionMatrix.sum()
@@ -15,7 +15,7 @@ class Classify_Metrics:
 
     def precision(self, confusionMatrix = None):
         # precision = TP / (TP+FP)
-        if confusionMatrix is not None:
+        if confusionMatrix is None:
             confusionMatrix = self.confusionMatrix
 
         precision = np.diag(confusionMatrix) / np.sum(confusionMatrix, axis=1)
@@ -24,7 +24,7 @@ class Classify_Metrics:
 
     def recall(self, confusionMatrix = None):
         # recall = TP / (TP+FN)
-        if confusionMatrix is not None:
+        if confusionMatrix is None:
             confusionMatrix = self.confusionMatrix
 
         recall = np.diag(confusionMatrix) / np.sum(confusionMatrix, axis=0)
