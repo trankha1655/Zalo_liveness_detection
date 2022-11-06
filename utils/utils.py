@@ -11,6 +11,7 @@ import numpy as np
 from PIL import Image
 import torch
 import torch.nn as nn
+import numpy as np
 """
 git add . 
 git commit -m "fix bug"
