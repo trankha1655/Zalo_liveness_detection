@@ -109,8 +109,8 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
             
             epoch_loss.append(loss.item())
             
-
-        gt = np.asarray(labels.cpu(), dtype=np.uint8)
+        gt = torch.argmax(labels, 1).long()
+        gt = np.asarray(gt.cpu(), dtype=np.uint8)
         output = torch.argmax(output, 1).long()
         output = np.asarray(output.cpu(), dtype=np.uint8)
         #get metrics of a batch then 
