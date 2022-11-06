@@ -44,9 +44,9 @@ class Classify_Metrics:
         return confusionMatrix
 
     def addBatch(self, target, predict):
-
-        assert target.shape == predict.shape
-        temp = self.genConfusionMatrix(target, predict)
+        
+        assert target.shape == predict.shape 
+        temp = self.get_ConfusionMatrix(target, predict)
         self.confusionMatrix += temp
 
         return self.get_metrics(target, predict)
@@ -54,7 +54,7 @@ class Classify_Metrics:
     def get_metrics(self, target = None, predict = None):
 
         if target is not None:
-            temp = self.genConfusionMatrix(target, predict)
+            temp = self.get_ConfusionMatrix(target, predict)
         else:
             temp = None
         p = self.precision(temp)
