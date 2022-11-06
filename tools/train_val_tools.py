@@ -1,5 +1,6 @@
 from tqdm import tqdm
 from utils.scheduler.lr_scheduler import PolyLR
+import torch
 
 def train(args, train_loader, model, criterion, optimizer, epoch, device):
     """
