@@ -204,7 +204,7 @@ def main(args):
             if args.local_rank == 0:
                 epoch_list.append(epoch)
                 Acc_list.append(accuracy)
-                lossVal_list.append(loss.item())
+                lossVal_list.append(loss)
                 # record trainVal information
                 recorder.record_trainVal_log(logger = logger, 
                                             epoch = epoch, 
