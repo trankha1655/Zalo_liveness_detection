@@ -1,5 +1,5 @@
 
-
+import numpy as np
 class Classify_Metrics:
     def __init__(self, numClass):
         self.confusionMatrix = np.zeros((numClass, numClass))
