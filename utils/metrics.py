@@ -1,6 +1,6 @@
 
 import numpy as np
-
+from prettytable import PrettyTable
 def eval_metric(Accuracy, Precision, Recall, F1):
     class_dict_df ={0: 'Fake', 1: 'Real'}
     
