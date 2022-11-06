@@ -108,7 +108,8 @@ class Classify_Metrics:
         f1 = self.f1_score(p, r)
         if temp is None:
             return eval_metric(acc, p, r, f1)
-            #return acc, p, r, f1
+        
+        return acc
 
     
 
