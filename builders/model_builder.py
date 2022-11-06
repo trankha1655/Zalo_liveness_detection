@@ -39,7 +39,7 @@ def build_model(model_name,
         model = mobilenetv3_large(num_classes ==num_classes)
     elif model_name == 'MobileNetv2':
         model = MobileNet2(num_classes=num_classes)
-    elif:
+    else:
         raise TypeError("No model name is", model_name)  
     
     
