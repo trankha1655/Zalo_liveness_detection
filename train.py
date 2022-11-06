@@ -189,7 +189,7 @@ def main(args):
             #                                criterion=criterion,
             #                                mode=args.predict_type,
             #                                save_result=True)
-            metrics = Classify_Metrics(2)
+            metrics = Classify_Metrics(args, 2)
             loss, accuracy, precision, recall, f1 = val(args= args,
                                                          val_loader= testLoader,
                                                          model= model, 

@@ -1,7 +1,7 @@
 
 import numpy as np
 from prettytable import PrettyTable
-def eval_metric(Accuracy, Precision, Recall, F1):
+def eval_metric(args, Accuracy, Precision, Recall, F1):
     class_dict_df ={0: 'Fake', 1: 'Real'}
     
     #Accuracy, Precision, Recall, F1 = metrics.get_metrics()
@@ -42,13 +42,10 @@ def eval_metric(Accuracy, Precision, Recall, F1):
 
 
 class Classify_Metrics:
-    def __init__(self, numClass):
+    def __init__(self, args, numClass):
         self.confusionMatrix = np.zeros((numClass, numClass))
         self.numClass = numClass
-        self.p = 0
-        self.acc = 0
-        self.r = 0
-        self.f1 = 0
+        self.args = args
 
     def accuracy(self, confusionMatrix= None):
 
@@ -107,7 +104,7 @@ class Classify_Metrics:
         acc = self.accuracy(temp)
         f1 = self.f1_score(p, r)
         if temp is None:
-            return eval_metric(acc, p, r, f1)
+            return eval_metric(self.args, acc, p, r, f1)
         
         return np.sum(acc)
 
