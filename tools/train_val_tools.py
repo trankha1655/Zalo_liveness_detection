@@ -91,6 +91,8 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
                 desc='Predicting')  
         
     for iteration, batch in pbar:
+        if iteration > 2:
+            continue
         with torch.no_grad():
 
             images, labels, _, _ = batch
