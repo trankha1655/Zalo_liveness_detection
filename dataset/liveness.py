@@ -225,7 +225,7 @@ class LivenessTestVideo(data.Dataset):
         return len(self.files)
 
     def convert_frame(self, file):
-        capture = cv2.VideoCapture( os.path.join( self.root, name))
+        capture = cv2.VideoCapture( os.path.join( self.root, file))
         frameNr = 0
         batch_image = []
         composed_transforms = transforms.Compose([
