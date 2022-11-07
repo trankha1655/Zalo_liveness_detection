@@ -94,7 +94,7 @@ def main(args):
         pass
     else:
 
-        predict(args, DataLoader, model, device)
+        predict(args, DataLoader, model, device, write_results)
 
 
 
