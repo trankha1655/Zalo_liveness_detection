@@ -70,7 +70,7 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
     return average_epoch_loss_train, lr
 
 
-def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
+def val(val_loader, model, criterion, device, metrics):
     """
     args:
        train_loader: loaded for training dataset
@@ -127,7 +127,7 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
     # torch.cuda.empty_cache()
     return average_epoch_loss_train, accuracy, precision, recall, f1
 
-def predict(args, val_loader, model, device):
+def predict(args, val_loader, model, device, write_results):
     """
     args:
        train_loader: loaded for training dataset
@@ -146,13 +146,13 @@ def predict(args, val_loader, model, device):
                 
     for iteration, batch in pbar:
         
-        outputs = predict_batch(batch, model, device)
+        outputs = predict_batch(batch, model, device, write_results)
     
 
-
+        write_results.write_result(outputs)
     
     # torch.cuda.empty_cache()
-    return average_epoch_loss_train
+    return outputs
 
 
 def predict_batch(batch, model, device):
@@ -175,18 +175,26 @@ def predict_batch(batch, model, device):
 
         images, _, names = batch
         #print(images.shape)
+        if images.dim() >4:
+            images = torch.unsqueeze(images, 0)
+
         images = images.to(device).float()
         
         
         
         output = model(images)
+        
 
         if len(names) > 1:
             output = torch.argmax(output, 1).long()
             output = np.asarray(output.cpu(), dtype=np.uint8) # (B x 2)
         else:
-            output = torch.mean(output, 0)
             output = np.asarray(output.cpu(), dtype=np.uint8) 
+            if np.mean(output, axis =0)[1] < 0.5:
+                output = np.min(arr[:,1])
+            else:
+                output = np.max(arr[:,1])
+    
     # torch.cuda.empty_cache()
     return {'names': names, 'labels': output}
 

@@ -9,7 +9,8 @@ Github:   https://github.com/Deeachain
 import os
 import pickle
 import pandas as pd
-from dataset.liveness import LivenessTrainDataSet, LivenessValDataSet, LivenessTestDataSet
+from dataset.liveness import LivenessTrainDataSet, LivenessValDataSet, LivenessTestDataSet, LivenessTestVideo
+import glob
 
 def build_dataset_train(root, base_size, crop_size):
     data_dir = root#os.path.join(root, dataset)
@@ -38,3 +39,14 @@ def build_dataset_test(root, crop_size, gt=False):
         testdataset = LivenessTestDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0)
     
     return testdataset
+
+def build_dataset_mp4(root, crop_size):
+
+    if root =='':
+        root ='.'
+    mp4_list = root +'/public/*/*.mp4'
+    files = glob.glob(mp4_list)
+
+    mp4data= LivenessTestVideo(root= root, crop_size= crop_size, file_txt = mp4_list)
+    return mp4
+

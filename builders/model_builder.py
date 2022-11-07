@@ -13,7 +13,7 @@ from collections import OrderedDict
 from model.inception_resnetv2 import Inception_ResNetv2
 from model.mobilenetv2 import MobileNetv2
 from model.mobilenetv3 import mobilenetv3_large, mobilenetv3_small
-
+import torch
 
 
 model_urls = {
@@ -27,7 +27,6 @@ model_urls = {
 
 def build_model(model_name,
                 num_classes, 
-                pretrained=False, 
                 checkpoint_path=None):
     if model_name == 'Inception_Resnetv2':
         model = Inception_ResNetv2(classes=num_classes)
@@ -44,7 +43,7 @@ def build_model(model_name,
     
     
 
-    if pretrained:
+    if checkpoint_path is not None:
         checkpoint = torch.load(checkpoint_path)
         check_list = [i for i in checkpoint['model'].items()]
         # Read weights with multiple cards, and continue training with a single card this time

@@ -34,7 +34,7 @@ class WriteResult:
 
         else:
             name = file_name.split('/')[-1]
-            classes = classes.item()
+            
             if save_mp4:
                 
                 sub_name = os.path.join(self.save_dir, str(classes))
@@ -46,5 +46,5 @@ class WriteResult:
             self.df.append([name, classes])
 
     def save_df(self):
-        self.df = pandas.DataFrame()
-            
+        self.df = pandas.DataFrame(df, columns=['fname', 'liveness_score'])
+        self.df.to_csv( os.path.join(root, "/Predict.csv"))

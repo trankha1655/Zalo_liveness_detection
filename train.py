@@ -33,8 +33,7 @@ def parse_args():
     parser.add_argument('--model', type=str, default="MobileNetv2",
                             choices=['Inception_Resnetv2', 'MobileNetv2', 'MobileNetv3_small', 'MobileNetv3_large'], 
                             help="model name")
-    parser.add_argument('--pretrained', action='store_true',
-                        help="whether choice backbone pretrained on imagenet")
+    
    
     parser.add_argument('--root', type=str, default="", help="path of datasets")
     parser.add_argument('--dataset', type=str, default="cityscapes", help="dataset: cityscapes")
@@ -90,7 +89,6 @@ def main(args):
 
     model = build_model(args.model, 
                         2,
-                        args.pretrained, 
                         args.weight)
 
     # define loss function, respectively
@@ -225,12 +223,12 @@ def main(args):
             #                                mode=args.predict_type,
             #                                save_result=True)
             metrics = Classify_Metrics(args, 2)
-            loss, accuracy, precision, recall, f1 = val(args= args,
+            loss, accuracy, precision, recall, f1 = val(
                                                          val_loader= testLoader,
                                                          model= model, 
                                                          criterion= criterion, 
-                                                         optimizer= optimizer, 
-                                                         epoch= epoch, 
+                                                         
+                                                      
                                                          device= device, 
                                                          metrics= metrics)
         
@@ -299,12 +297,12 @@ def main(args):
                     #                                mode=args.predict_type,
                     #                                save_result=False)
 
-                    loss, accuracy, precision, recall, f1 = val(args= args,
+                    loss, accuracy, precision, recall, f1 = val(
                                                          val_loader= testLoader,
                                                          model= model, 
                                                          criterion= criterion, 
-                                                         optimizer= optimizer, 
-                                                         epoch= epoch, 
+                                                         
+                                                         
                                                          device= device, 
                                                          metrics= metrics)
                     print("Epoch {}  lr= {:.6f}  Train Loss={:.4f}  Val Loss={:.4f}  Acc={:.4f}  Precision={:.4f}  Recall={:.4f} F1_Score={:.4f}\n"

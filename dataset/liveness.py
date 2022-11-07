@@ -139,15 +139,14 @@ class LivenessValDataSet(data.Dataset):
         label = datafiles["label"]
         size = np.asarray(image).shape
         name = datafiles["name"]
-        try:
-            composed_transforms = transforms.Compose([
-                tr.RandomScaleCrop( crop_size=self.crop_size, fill=0),
-                #tr.FixScaleCrop(crop_size=self.crop_size),
-                # tr.FixedResize(size=(1024,512)),
-                tr.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-                tr.ToTensor()])
-        except:
-            print(datafilesp['img'])
+        
+        composed_transforms = transforms.Compose([
+            tr.RandomScaleCrop( crop_size=self.crop_size, fill=0),
+            #tr.FixScaleCrop(crop_size=self.crop_size),
+            # tr.FixedResize(size=(1024,512)),
+            tr.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+            tr.ToTensor()])
+        
         sample = {'image': image}
         sampled = composed_transforms(sample)
         image = sampled['image']
@@ -215,3 +214,50 @@ class LivenessTestDataSet(data.Dataset):
         
         return image, np.array(size), name
 
+class LivenessTestVideo(data.Dataset):
+    def __init__(self, root, file_txt, crop_size=400):
+        self.files = file_txt
+        self.root = root
+        self.crop_size = crop_size
+        
+    
+    def __len__(self):
+        return len(self.files)
+
+    def convert_frame(self, file):
+        capture = cv2.VideoCapture( os.path.join( root, name))
+        frameNr = 0
+        batch_image = []
+        composed_transforms = transforms.Compose([
+            tr.RandomScaleCrop( crop_size=self.crop_size, fill=0),
+            #tr.FixScaleCrop(crop_size=self.crop_size),
+            # tr.FixedResize(size=(1024,512)),
+            tr.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+            ])
+        
+        while (True):
+    
+            success, frame = capture.read()
+        
+            if success:
+                if frameNr % 5 == 0:
+                    sample = {'image': frame}
+                    sampled = composed_transforms(sample)
+                    batch_image.append(sampled['image'])
+        
+            else:
+                break
+        
+            frameNr = frameNr+1
+
+        return np.array(batch_image).astype(np.float32)
+
+    def __getitem__(self, index):
+        file = self.files[index]
+
+        batch_img = self.convert_frame(file) 
+        size = batch_img.shape[1:3]
+        batch_img = batch_img.transpose((0, 3, 1, 2))
+        batch_img = torch.from_numpy(batch_img).float()
+
+        return batch_img, size,  file

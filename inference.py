@@ -17,8 +17,7 @@ from builders.model_builder import build_model
 from builders.dataset_builder import build_dataset_test
 #from builders.loss_builder import build_loss
 from tools.train_val_tools import predict, val
-
-
+from dataset.liveness import LivenessTestVideo
 def main(args):
     """
      main function for testing
@@ -33,7 +32,6 @@ def main(args):
     # build the model
     model = build_model(args.model, 
                         2,
-                        args.pretrained, 
                         args.weight)
 
     # load the test set
@@ -43,17 +41,21 @@ def main(args):
                                         args.crop_size,
                                         gt=True)
 
-    else:
+    elif args.predict_type == 'predict':
         testdataset = build_dataset_test(args.root, 
                                         args.crop_size,
                                         gt=False)
-                                        
+    else:
+        testdataset = LivenessTestVideo(args.root, args.crop_size)
+        args.batch_size = 1
+
     DataLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
                 shuffle=False, num_workers=args.num_workers, pin_memory=True, drop_last=False)
 
     if args.cuda:
         #os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
         model = model.cuda()
+        device = 'cuda'
         cudnn.benchmark = True
         if not torch.cuda.is_available():
             raise Exception("no GPU found or wrong gpu id, please run without --cuda")
@@ -74,54 +76,45 @@ def main(args):
             # Read the training weight of a single card, and continue training with a single card this time
             else:
                 model.load_state_dict(checkpoint)
+            print('Loaded weight from ', args.checkpoint)
         else:
             print("no checkpoint found at '{}'".format(args.checkpoint))
             raise FileNotFoundError("no checkpoint found at '{}'".format(args.checkpoint))
     
 
     # define loss function
-    criterion = build_loss(args, datas, 255)
+    criterion = torch.nn.CrossEntropyLoss()
+    write_results = WriteResult(args)
     print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
           ">>>>>>>>>>>  beginning testing   >>>>>>>>>>>>\n"
           ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-    predict_multiscale_sliding( args=args, model=model, 
-                                testLoader=DataLoader, 
-                                class_dict_df=class_dict_df,
-                                scales=args.scales,
-                                overlap=args.overlap, 
-                                criterion=criterion,
-                                mode=args.predict_type, 
-                                save_result=True)
+    
+    if 'val' in args.predict_type:
+        pass
+    else:
+
+        predict(args, DataLoader, model, device)
+
 
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--model', default="DDRNet", help="model name")
-    parser.add_argument('--backbone', type=str, default="resnet18", help="backbone name")
-    parser.add_argument('--pretrained', action='store_true',
-                        help="whether choice backbone pretrained on imagenet")
+    
 
-    parser.add_argument('--out_stride', type=int, default=32, help="output stride of backbone")
-    parser.add_argument('--mult_grid', action='store_true',
-                        help="whether choice mult_grid in backbone last layer")
+    
     parser.add_argument('--root', type=str, default="", help="path of datasets")
-    parser.add_argument('--predict_mode', default="sliding", choices=["sliding", "whole"],
-                        help="Defalut use whole predict mode")
-    parser.add_argument('--predict_type', default="validation", choices=["validation", "predict"],
+    
+    parser.add_argument('--predict_type', default="validation", choices=["validation", "predict", "[predict_mp4]"],
                         help="Defalut use validation type")
-    parser.add_argument('--flip_merge', action='store_true', help="Defalut use predict without flip_merge")
-    parser.add_argument('--scales', type=float, nargs='+', default=[1.0], help="predict with multi_scales")
-    parser.add_argument('--overlap', type=float, default=0.0, help="sliding predict overlap rate")
-    parser.add_argument('--dataset', default="paris", help="dataset: cityscapes")
+   
+    
     parser.add_argument('--num_workers', type=int, default=1, help="the number of parallel threads")
     parser.add_argument('--batch_size', type=int, default=1,
                         help=" the batch_size is set to 1 when evaluating or testing NOTES:image size should fixed!")
-    parser.add_argument('--RGB', type=str, default=False, help="Is RGB or not")
-    parser.add_argument('--tile_hw_size', type=str, default='768, 768',
-                        help=" the tile_size is when evaluating or testing")
-    parser.add_argument('--crop_size', type=int, default=800, help="crop size of image")
-    parser.add_argument('--input_size', type=str, default=(769, 769),
-                        help=" the input_size is for build ProbOhemCrossEntropy2d loss")
+    
+    parser.add_argument('--crop_size', type=int, default=224, help="crop size of image")
+    
     parser.add_argument('--checkpoint', type=str, default='best_model.pth',
                         help="use the file to load the checkpoint for evaluating or testing ")
     parser.add_argument('--save_seg_dir', type=str, default="./outputs/",
@@ -134,14 +127,10 @@ if __name__ == '__main__':
     parser.add_argument('--local_rank', type=int, default=0)
     args = parser.parse_args()
 
-    save_dirname = args.checkpoint.split('/')[-2] + '_' + args.checkpoint.split('/')[-1].split('.')[0]
+    save_dirname = args.model
 
-    args.save_seg_dir = os.path.join(args.save_seg_dir, args.dataset, args.predict_mode, save_dirname)
+    args.save_seg_dir = os.path.join(args.save_seg_dir,  save_dirname)
 
-    if args.dataset == 'cityscapes':
-        args.classes = 8
-    else:
-        raise NotImplementedError(
-            "This repository now supports datasets %s is not included" % args.dataset)
+    
 
     main(args)
