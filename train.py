@@ -153,7 +153,7 @@ def main(args):
     lossTr_list = []
     Acc_list = []
     lossVal_list = []
-    Acc = 0
+    accuracy = 0
     Best_Acc = 0
     # continue training
     if args.resume:
