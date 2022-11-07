@@ -18,6 +18,7 @@ from builders.dataset_builder import build_dataset_test
 #from builders.loss_builder import build_loss
 from tools.train_val_tools import predict, val
 from dataset.liveness import LivenessTestVideo
+from utils.write_result import WriteResult
 def main(args):
     """
      main function for testing
