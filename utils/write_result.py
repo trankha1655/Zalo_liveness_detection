@@ -8,7 +8,7 @@ class WriteResult:
         self.save_dir = args.save_seg_dir  #default: ../checkpoint/MODEL_NAME/
         self.columns = ["", ""]
         self.df = []
-    
+        
     def write_file(src, des):
         shutil.copy(src, des)
 
@@ -46,5 +46,6 @@ class WriteResult:
             self.df.append([name, classes])
 
     def save_df(self):
-        self.df = pandas.DataFrame(df, columns=['fname', 'liveness_score'])
-        self.df.to_csv( os.path.join(root, "/Predict.csv"))
+        self.df = pandas.DataFrame(self.df, columns=['fname', 'liveness_score'])
+        
+        self.df.to_csv( os.path.join(self.root, "Predict.csv"), index = False)

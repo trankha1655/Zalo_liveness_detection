@@ -190,7 +190,9 @@ def predict_batch(batch, model, device):
             output = torch.argmax(output, 1).long()
             output = np.asarray(output.cpu(), dtype=np.uint8) # (B x 2)
         else:
-            output = np.asarray(output.cpu(), dtype=np.uint8) 
+            output = torch.nn.functional.softmax(output)
+            output = output.cpu().detach().numpy() 
+            
             if np.mean(output, axis =0)[1] < 0.5:
                 output = np.min(output[:,1])
             else:

@@ -95,6 +95,7 @@ def main(args):
     else:
 
         predict(args, DataLoader, model, device, write_results)
+        write_results.save_df()
 
 
 
