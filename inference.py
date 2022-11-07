@@ -32,7 +32,7 @@ def main(args):
     # build the model
     model = build_model(args.model, 
                         2,
-                        args.weight)
+                        None)
 
     # load the test set
     if args.predict_type == 'validation':
@@ -99,22 +99,14 @@ def main(args):
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--model', default="DDRNet", help="model name")
-    
-
-    
+    parser.add_argument('--model', default="MobileNetv2", help="model name")
     parser.add_argument('--root', type=str, default="", help="path of datasets")
-    
-    parser.add_argument('--predict_type', default="validation", choices=["validation", "predict", "[predict_mp4]"],
+    parser.add_argument('--predict_type', default="validation", choices=["validation", "predict", "predict_mp4"],
                         help="Defalut use validation type")
-   
-    
     parser.add_argument('--num_workers', type=int, default=1, help="the number of parallel threads")
-    parser.add_argument('--batch_size', type=int, default=1,
+    parser.add_argument('--batch_size', type=int, default=16,
                         help=" the batch_size is set to 1 when evaluating or testing NOTES:image size should fixed!")
-    
     parser.add_argument('--crop_size', type=int, default=224, help="crop size of image")
-    
     parser.add_argument('--checkpoint', type=str, default='best_model.pth',
                         help="use the file to load the checkpoint for evaluating or testing ")
     parser.add_argument('--save_seg_dir', type=str, default="./outputs/",
