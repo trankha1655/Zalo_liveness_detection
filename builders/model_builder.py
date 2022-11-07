@@ -46,7 +46,17 @@ def build_model(model_name,
 
     if pretrained:
         checkpoint = torch.load(checkpoint_path)
-        model.load_state_dict(checkpoint)
+        check_list = [i for i in checkpoint['model'].items()]
+        # Read weights with multiple cards, and continue training with a single card this time
+        if 'module.' in check_list[0][0]:
+            new_stat_dict = {}
+            for k, v in checkpoint['model'].items():
+                new_stat_dict[k[7:]] = v
+            model.load_state_dict(new_stat_dict, strict=True)
+        # Read the training weight of a single card, and continue training with a single card this time
+        else:
+            model.load_state_dict(checkpoint['model'])
+        
 
     return model
 

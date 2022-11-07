@@ -21,7 +21,7 @@ def build_dataset_train(root, base_size, crop_size):
     return TrainDataSet
 
 
-def build_dataset_test(root, crop_size, gt=False)  :
+def build_dataset_test(root, crop_size, gt=False):
     data_dir = root 
     train_data_list = os.path.join(root, 'datasets/train_list.txt')
   

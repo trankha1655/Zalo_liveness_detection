@@ -127,16 +127,13 @@ def val(args, val_loader, model, criterion, optimizer, epoch, device, metrics):
     # torch.cuda.empty_cache()
     return average_epoch_loss_train, accuracy, precision, recall, f1
 
-def predict(args, val_loader, model, criterion, optimizer, epoch, device):
+def predict(args, val_loader, model, device):
     """
     args:
        train_loader: loaded for training dataset
        model       : model
-       criterion   : loss function
-       optimizer   : optimization algorithm, such as ADAM or SGD
-       epoch       : epoch number
        device      : cuda
-    return: average loss, lr
+    return: {'names': names, 'labels': predict_label}
     """
 
     model.eval()
@@ -148,20 +145,49 @@ def predict(args, val_loader, model, criterion, optimizer, epoch, device):
                 desc='Predicting')
                 
     for iteration, batch in pbar:
-        with torch.no_grad():
-
-            images, _, _ = batch
-            #print(images.shape)
-            images = images.to(device).float()
-            
-            
-            
-            output = model(images)
-
+        
+        outputs = predict_batch(batch, model, device)
+    
 
 
     
     # torch.cuda.empty_cache()
     return average_epoch_loss_train
+
+
+def predict_batch(batch, model, device):
+    """
+    args:
+       batch       : images, size, names    |if type predict is video, batch is number image is cutted from video      
+       model       : model                  while normal predict just is a batch.
+       device      : cuda
+    return: {'names': names, 'labels': predict_label}:  B x str or 1 x str, B x 2
+                                                       (B names of Batch of images or one name of one videos)
+    """
+
+    model.eval()
+    
+    # lr = optimizer.param_groups[0]['lr']
+    
+                
+    
+    with torch.no_grad():
+
+        images, _, names = batch
+        #print(images.shape)
+        images = images.to(device).float()
+        
+        
+        
+        output = model(images)
+
+        if len(names) > 1:
+            output = torch.argmax(output, 1).long()
+            output = np.asarray(output.cpu(), dtype=np.uint8) # (B x 2)
+        else:
+            output = torch.mean(output, 0)
+            output = np.asarray(output.cpu(), dtype=np.uint8) 
+    # torch.cuda.empty_cache()
+    return {'names': names, 'labels': output}
 
 
