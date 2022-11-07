@@ -18,7 +18,7 @@ class record_log():
 
     def record_best_epoch(self, epoch, Acc, Pre, Rec, F1):
         with open(self.args.savedir + 'args.txt', 'a+') as f:
-            f.write('\nBest Validation Epoch {} Best_Acc is {} Precision is {} Recall is {} F1 is {} '.format(
+            f.write('\nBest Validation Epoch {} Best_Acc is {:.4f} Precision is {:.4f} Recall is {:.4f} F1 is {:.4f} '.format(
                 epoch, Acc, Pre, Rec, F1))
 
     def initial_logfile(self):
@@ -26,7 +26,7 @@ class record_log():
         logger = open(logFileLoc, 'w')
         logger.write(("{}\t{}\t\t{}\t{}\t{}\t{}\t{}\t{}\n".format(
             'Epoch', '   lr', 'Loss(Tr)', 'Loss(Val)', 'Accuracy(Val)', 
-            'Precicion(Val)',  'Recall(Val)', '    F1_Score(Val)')))
+            'Precicion(Val)',  'Recall(Val)', 'F1_Score(Val)')))
         return logger
 
     def resume_logfile(self):

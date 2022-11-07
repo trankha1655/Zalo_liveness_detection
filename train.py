@@ -58,7 +58,9 @@ def parse_args():
     parser.add_argument('--local_rank', type=int, default=0)
     parser.add_argument('--gpus_id', type=str, default="1", help="default GPU devices 1")
     # checkpoint and log
-    
+    parser.add_argument('--resume', type=str, default=None,
+                        help="use this file to load last checkpoint for continuing training")
+
     parser.add_argument('--weight', type =str, help="path direct to weight")                    
     parser.add_argument('--savedir', default="./checkpoint/", help="directory to save the model snapshot")
     parser.add_argument('--logFile', default="log.txt", help="storing the training and validation logs")
@@ -132,10 +134,10 @@ def main(args):
     if not os.path.exists(args.save_seg_dir) and args.local_rank == 0:
         os.makedirs(args.save_seg_dir)
 
-    recorder = record_log(args)
     
-    if  args.local_rank == 0:
-        recorder.record_args( str(netParams(model) / 1e6) + ' M', GLOBAL_SEED)
+    recorder = record_log(args)
+    if args.resume == None and args.local_rank == 0:
+        recorder.record_args(datas, str(netParams(model) / 1e6) + ' M', GLOBAL_SEED)
 
     # initialize the early_stopping object
     early_stopping = EarlyStopping(patience=300)
@@ -145,8 +147,7 @@ def main(args):
               ">>>>>>>>>>>  beginning training   >>>>>>>>>>>\n"
               ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
-    logger = recorder.initial_logfile()
-    logger.flush()
+    
 
     epoch_list = []
     lossTr_list = []
@@ -155,6 +156,37 @@ def main(args):
     Acc = 0
     Best_Acc = 0
     # continue training
+    if args.resume:
+        logger, lines = recorder.resume_logfile()
+        for index, line in enumerate(lines):
+            lossTr_list.append(float(line.strip().split()[2]))
+            if len(line.strip().split()) != 3:
+                epoch_list.append(int(line.strip().split()[0]))
+                lossVal_list.append(float(line.strip().split()[3]))
+                Acc_list.append(float(line.strip().split()[4]))
+
+        if os.path.isfile(args.resume):
+            checkpoint = torch.load(args.resume)
+            start_epoch = checkpoint['epoch'] + 1
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            check_list = [i for i in checkpoint['model'].items()]
+            # Read weights with multiple cards, and continue training with a single card this time
+            if 'module.' in check_list[0][0]:
+                new_stat_dict = {}
+                for k, v in checkpoint['model'].items():
+                    new_stat_dict[k[:]] = v
+                model.load_state_dict(new_stat_dict, strict=True)
+            # Read the training weight of a single card, and continue training with a single card this time
+            else:
+                model.load_state_dict(checkpoint['model'])
+            if args.local_rank == 0:
+                print("loaded checkpoint '{}' (epoch {})".format(args.resume, checkpoint['epoch']))
+        else:
+            if args.local_rank == 0:
+                print("no checkpoint found at '{}'".format(args.resume))
+    else:
+        logger = recorder.initial_logfile()
+        logger.flush()
 
     for epoch in range(start_epoch, args.max_epochs + 1):
         start_time = time.time()
