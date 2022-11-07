@@ -47,6 +47,6 @@ def build_dataset_mp4(root, crop_size):
     mp4_list = root +'/public/*/*.mp4'
     files = glob.glob(mp4_list)
 
-    mp4data= LivenessTestVideo(root= '', crop_size= crop_size, file_txt = mp4_list)
+    mp4data= LivenessTestVideo(root= '', crop_size= crop_size, file_txt = files)
     return mp4data
 

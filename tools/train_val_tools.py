@@ -146,7 +146,7 @@ def predict(args, val_loader, model, device, write_results):
                 
     for iteration, batch in pbar:
         
-        outputs = predict_batch(batch, model, device, write_results)
+        outputs = predict_batch(batch, model, device)
     
 
         write_results.write_result(outputs)
@@ -174,10 +174,11 @@ def predict_batch(batch, model, device):
     with torch.no_grad():
 
         images, _, names = batch
-        #print(images.shape)
+        
         if images.dim() >4:
-            images = torch.unsqueeze(images, 0)
+            images = torch.squeeze(images, 0)
 
+        
         images = images.to(device).float()
         
         
@@ -191,9 +192,9 @@ def predict_batch(batch, model, device):
         else:
             output = np.asarray(output.cpu(), dtype=np.uint8) 
             if np.mean(output, axis =0)[1] < 0.5:
-                output = np.min(arr[:,1])
+                output = np.min(output[:,1])
             else:
-                output = np.max(arr[:,1])
+                output = np.max(output[:,1])
     
     # torch.cuda.empty_cache()
     return {'names': names, 'labels': output}

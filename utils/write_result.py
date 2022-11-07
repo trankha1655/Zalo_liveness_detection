@@ -17,7 +17,7 @@ class WriteResult:
         names = outputs['names']
         classes = outputs['labels']
 
-        if not 'mp4' in names:
+        if not 'mp4' in names[0]:
             for file_name, label in zip(names, classes):
                 #only get label, folder, name
                 temp = file_name.split('/')[-3:]
@@ -33,7 +33,7 @@ class WriteResult:
                 write_file(file_name, fullname)
 
         else:
-            name = file_name.split('/')[-1]
+            name = names[0].split('\\')[-1]
             
             if save_mp4:
                 

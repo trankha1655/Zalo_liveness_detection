@@ -225,7 +225,8 @@ class LivenessTestVideo(data.Dataset):
         return len(self.files)
 
     def convert_frame(self, file):
-        capture = cv2.VideoCapture( os.path.join( self.root, file))
+        
+        capture = cv2.VideoCapture( file)
         frameNr = 0
         batch_image = []
         composed_transforms = transforms.Compose([
@@ -241,7 +242,8 @@ class LivenessTestVideo(data.Dataset):
         
             if success:
                 if frameNr % 5 == 0:
-                    sample = {'image': frame}
+                    img = Image.fromarray(frame, 'RGB')
+                    sample = {'image': img}
                     sampled = composed_transforms(sample)
                     batch_image.append(sampled['image'])
         
@@ -256,6 +258,7 @@ class LivenessTestVideo(data.Dataset):
         file = self.files[index]
 
         batch_img = self.convert_frame(file) 
+        #print(batch_img.shape)
         size = batch_img.shape[1:3]
         batch_img = batch_img.transpose((0, 3, 1, 2))
         batch_img = torch.from_numpy(batch_img).float()
