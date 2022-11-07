@@ -14,7 +14,7 @@ from torch.utils import data
 from argparse import ArgumentParser
 from prettytable import PrettyTable
 from builders.model_builder import build_model
-from builders.dataset_builder import build_dataset_test
+from builders.dataset_builder import build_dataset_test, build_dataset_mp4
 #from builders.loss_builder import build_loss
 from tools.train_val_tools import predict, val
 from dataset.liveness import LivenessTestVideo
@@ -47,7 +47,7 @@ def main(args):
                                         args.crop_size,
                                         gt=False)
     else:
-        testdataset = LivenessTestVideo(args.root, args.crop_size)
+        testdataset = build_dataset_mp4(args.root, args.crop_size)
         args.batch_size = 1
 
     DataLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
