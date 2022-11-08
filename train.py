@@ -155,6 +155,7 @@ def main(args):
     lossVal_list = []
     accuracy = 0
     Best_Acc = 0
+    last_model_file_name = args.savedir + '/last_model.pth'
     # continue training
     if args.resume:
         if os.path.isfile(args.resume):
