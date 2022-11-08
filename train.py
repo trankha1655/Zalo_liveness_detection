@@ -199,9 +199,6 @@ def main(args):
             
             if index == start_epoch:
                 break
-
-
-    
     else:
         logger = recorder.initial_logfile()
         logger.flush()
@@ -231,33 +228,21 @@ def main(args):
         if epoch % args.val_epochs == 0 or epoch == 1 or args.max_epochs - 20 < epoch <= args.max_epochs:
             validation_start = time.time()
 
-            # loss, FWIoU, Miou, MIoU, PerCiou_set, Pa, PerCpa_set, Mpa, MF, F_set, F1_avg = \
-            #     predict_multiscale_sliding(args=args, model=model,
-            #                                testLoader=testLoader,
-            #                                class_dict_df=class_dict_df,
-            #                                #scales=[1.25, 1.5, 1.75, 2.0],
-            #                                scales=[1.0],
-            #                                overlap=0.3,
-            #                                criterion=criterion,
-            #                                mode=args.predict_type,
-            #                                save_result=True)
             metrics = Classify_Metrics(args, 2)
             loss, accuracy, precision, recall, f1 = val(
                                                          val_loader= testLoader,
                                                          model= model, 
                                                          criterion= criterion, 
-                                                         
-                                                      
                                                          device= device, 
                                                          metrics= metrics)
         
             torch.cuda.empty_cache()
-
+            # record trainVal information
             if args.local_rank == 0:
                 epoch_list.append(epoch)
                 Acc_list.append(accuracy)
                 lossVal_list.append(loss)
-                # record trainVal information
+                
                 recorder.record_trainVal_log(logger = logger, 
                                             epoch = epoch, 
                                             lr= lr, 
@@ -272,8 +257,8 @@ def main(args):
                 validation_end = time.time()
                 validation_per_epoch_seconds = validation_end - validation_start
         else:
+            # record train information
             if args.local_rank == 0:
-                # record train information
                 recorder.record_train_log(logger, epoch, lr, lossTr)
 
             # # Update lr_scheduler. In pytorch 1.1.0 and later, should call 'optimizer.step()' before 'lr_scheduler.step()'
@@ -307,29 +292,17 @@ def main(args):
             early_stopping.monitor(monitor=accuracy)
             if early_stopping.early_stop:
                 print("Early stopping and Save checkpoint")
-                if not os.path.exists(last_model_file_name):
-                    torch.save(state, last_model_file_name)
-                    torch.cuda.empty_cache()  # empty_cache
-
-                    # loss, FWIoU, Miou, Miou_Noback, PerCiou_set, Pa, PerCpa_set, Mpa, MF, F_set, F1_Noback = \
-                    #     predict_multiscale_sliding(args=args, model=model,
-                    #                                testLoader=testLoader,
-                    #                                scales=[1.0],
-                    #                                overlap=0.3,
-                    #                                criterion=criterion,
-                    #                                mode=args.predict_type,
-                    #                                save_result=False)
-
-                    loss, accuracy, precision, recall, f1 = val(
-                                                         val_loader= testLoader,
-                                                         model= model, 
-                                                         criterion= criterion, 
-                                                         
-                                                         
-                                                         device= device, 
-                                                         metrics= metrics)
-                    print("Epoch {}  lr= {:.6f}  Train Loss={:.4f}  Val Loss={:.4f}  Acc={:.4f}  Precision={:.4f}  Recall={:.4f} F1_Score={:.4f}\n"
-                          .format(epoch, lr, lossTr, loss, accuracy, precision, recall, f1))
+                # if not os.path.exists(last_model_file_name):
+                #     torch.save(state, last_model_file_name)
+                torch.cuda.empty_cache()  # empty_cache
+                loss, accuracy, precision, recall, f1 = val(
+                                                        val_loader= testLoader,
+                                                        model= model, 
+                                                        criterion= criterion, 
+                                                        device= device, 
+                                                        metrics= metrics)
+                print("Epoch {}  lr= {:.6f}  Train Loss={:.4f}  Val Loss={:.4f}  Acc={:.4f}  Precision={:.4f}  Recall={:.4f} F1_Score={:.4f}\n"
+                        .format(epoch, lr, lossTr, loss, accuracy, precision, recall, f1))
                 break
 
             total_second = start_time + (args.max_epochs - epoch) * train_per_epoch_seconds + \
