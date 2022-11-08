@@ -209,6 +209,9 @@ def main(args):
         start_time = time.time()
         # training
         train_start = time.time()
+        #WRITE LOG FILE BEFORE TRAINING: PREVENT BUG AFTER TRAINED
+        with open(last_model_file_name[:-4]+'.txt', 'w') as f:
+                f.write('Last model from epoch: ' + epoch)
 
         lossTr, lr = train(args= args, 
                             train_loader= trainLoader, 
@@ -285,8 +288,7 @@ def main(args):
                                             F1 = f1) 
             #Save last epoch. 
             torch.save(state, last_model_file_name)
-            with open(last_model_file_name[:-4]+'.txt') as f:
-                f.write('Last model from epoch: ' + epoch)
+            
 
             # early_stopping monitor
             early_stopping.monitor(monitor=accuracy)
