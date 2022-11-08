@@ -38,9 +38,9 @@ def train(args, train_loader, model, criterion, optimizer, epoch, device):
 
         images, labels, _, _ = batch
         #print(images.shape)
-        images = images.to(device).float()
+        images = images.cuda().float()
         #print(images.shape)
-        labels = labels.to(device).float()
+        labels = labels.cuda().float()
         output = model(images)
 
         #print(output.shape, labels.shape)
@@ -96,9 +96,9 @@ def val(val_loader, model, criterion, device, metrics):
 
             images, labels, _, _ = batch
             #print(images.shape)
-            images = images.to(device).float()
+            images = images.cuda().float()
             #print(images.shape)
-            labels = labels.to(device).float()
+            labels = labels.cuda().float()
             
             output = model(images)
 

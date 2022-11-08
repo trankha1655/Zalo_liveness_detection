@@ -104,7 +104,7 @@ def main(args):
 
         
         
-        criterion = criterion.to(device)
+        criterion = criterion.cuda()
         testLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
                                      shuffle=True, num_workers=args.num_workers)
 
