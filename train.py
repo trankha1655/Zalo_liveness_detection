@@ -103,7 +103,7 @@ def main(args):
                  num_workers=args.num_workers)
 
         
-        model = torch.nn.DataParallel(model).cuda()
+        
         criterion = criterion.to(device)
         testLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
                                      shuffle=True, num_workers=args.num_workers)
@@ -190,10 +190,13 @@ def main(args):
             if index == start_epoch:
                 break
 
-        
+
+    
     else:
         logger = recorder.initial_logfile()
         logger.flush()
+    if args.cuda:
+        model = torch.nn.DataParallel(model).cuda()
 
     for epoch in range(start_epoch, args.max_epochs + 1):
         start_time = time.time()

@@ -4,4 +4,4 @@
 # FCN_ResNet  SegTrans
 
 python train.py --model MobileNetv2  --max_epochs 100 --val_epochs 5 --batch_size 64 --lr 0.001  \
-                    --root .. --resume ../Mobilenetv2_20epoch.pth --num_worker 4 --
+                    --root .. --resume ../Mobilenetv2_30epoch.pth --num_worker 4 

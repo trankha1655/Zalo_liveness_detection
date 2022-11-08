@@ -14,6 +14,6 @@ then
 else
     echo "downloading best_weight!"
     gdown 1iPk9eKZjY3yQhpEVicLYkNddX3FAgnSd
-    mv Mobilenetv2_20epoch.pth ../Mobilenetv2_20epoch.pth
+    mv Mobilenetv2_30epoch.pth ../Mobilenetv2_30epoch.pth
 fi
 
