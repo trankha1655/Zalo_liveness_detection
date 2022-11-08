@@ -184,8 +184,8 @@ def main(args):
                 lossVal_list.append(float(line.strip().split()[3]))
                 Acc_list.append(float(line.strip().split()[4]))
 
-                if Best_Acc < Acc_list[:-1]:
-                    Best_Acc = Acc_list[:-1]
+                if Best_Acc < Acc_list[-1]:
+                    Best_Acc = Acc_list[-1]
             
             if index == start_epoch:
                 break
