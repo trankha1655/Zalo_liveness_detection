@@ -12,17 +12,17 @@ import pandas as pd
 from dataset.liveness import LivenessTrainDataSet, LivenessValDataSet, LivenessTestDataSet, LivenessTestVideo
 import glob
 
-def build_dataset_train(root, base_size, crop_size):
+def build_dataset_train(root, base_size, crop_size, test_mode=False):
     data_dir = root#os.path.join(root, dataset)
     train_data_list = os.path.join(root, 'datasets/train_list.txt')
  
     
     TrainDataSet = LivenessTrainDataSet(data_dir, train_data_list, base_size=base_size, crop_size=crop_size,
-                                    ignore_label=0)   
+                                    ignore_label=0, test_mode= test_mode)   
     return TrainDataSet
 
 
-def build_dataset_test(root, crop_size, gt=False):
+def build_dataset_test(root, crop_size, gt=False, test_mode=False):
     data_dir = root 
     train_data_list = os.path.join(root, 'datasets/train_list.txt')
   
@@ -33,7 +33,7 @@ def build_dataset_test(root, crop_size, gt=False):
        
     if gt:
         test_data_list = os.path.join(root, 'datasets/test_list.txt')
-        testdataset = LivenessValDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0)
+        testdataset = LivenessValDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0, test_mode)
     else:
         test_data_list = os.path.join(root, 'datasets/test_list.txt')
         testdataset = LivenessTestDataSet(data_dir, test_data_list, crop_size=crop_size,  ignore_label=0)

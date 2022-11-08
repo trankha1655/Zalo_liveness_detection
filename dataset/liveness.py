@@ -32,7 +32,7 @@ class LivenessTrainDataSet(data.Dataset):
     """
 
     def __init__(self, root='', list_path='', max_iters=None, base_size=720, crop_size=400, mean=(0., 0., 0.),
-                 std=(1., 1., 1.), ignore_label=255):
+                 std=(1., 1., 1.), ignore_label=255, test_mode = False):
         self.root = root
         self.list_path = list_path
         self.base_size = base_size
@@ -42,6 +42,8 @@ class LivenessTrainDataSet(data.Dataset):
         self.ignore_label = ignore_label
         
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
+        if test_mode:
+            self.img_ids = self.img_ids[:test_mode]
         if max_iters is not None:
             self.img_ids = self.img_ids * int(np.ceil(float(max_iters) / len(self.img_ids)))
         self.files = []
@@ -103,7 +105,7 @@ class LivenessValDataSet(data.Dataset):
     """
 
     def __init__(self, root='', list_path='', crop_size=400, mean=(0., 0., 0.), std=(1., 1., 1.),
-                 ignore_label=255):
+                 ignore_label=255, test_mode=False):
         self.root = root
         self.list_path = list_path
         self.crop_size = crop_size
@@ -112,6 +114,8 @@ class LivenessValDataSet(data.Dataset):
         self.ignore_label = ignore_label
      
         self.img_ids = [i_id.strip() for i_id in open(list_path)]
+        if test_mode:
+            self.img_ids = self.img_ids[:test_mode]
         self.files = []
         self.label_mapping =np.array( [[1,0], [0, 1]])
 

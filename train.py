@@ -34,11 +34,8 @@ def parse_args():
                             choices=['Inception_Resnetv2', 'MobileNetv2', 'MobileNetv3_small', 'MobileNetv3_large'], 
                             help="model name")
     
-   
+    parser.add_argument('--test_mode', type=int, default=False, help="int number is a lenght dataset to testing speed")
     parser.add_argument('--root', type=str, default="", help="path of datasets")
-    parser.add_argument('--dataset', type=str, default="cityscapes", help="dataset: cityscapes")
-    parser.add_argument('--RGB', type=str, default=False, help="Is RGB or not")
-    
     parser.add_argument('--base_size', type=int, default=720, help="input size of image")
     parser.add_argument('--crop_size', type=int, default=299, help="crop size of image")
     parser.add_argument('--num_workers', type=int, default=1, help=" the number of parallel threads")
@@ -78,11 +75,15 @@ def main(args):
     
     traindataset = build_dataset_train(args.root, 
                                         args.base_size, 
-                                        args.crop_size)
+                                        args.crop_size,
+                                        args.test_mode
+                                        )
     # load the test set, if want set cityscapes test dataset change none_gt=False
     testdataset = build_dataset_test(args.root, 
                                      args.crop_size,
-                                     gt=True)
+                                     gt=True,
+                                     args.test_mode
+                                     )
     # Default size image of MobileNet model
     if 'Mobile' in args.model:
         args.crop_size = 224
