@@ -29,4 +29,3 @@ Epoch	   lr		Loss(Tr)	Loss(Val)	Accuracy(Val)	Precicion(Val)	Recall(Val)	    F1_
 28	0.000744	0.1209
 29	0.000735	0.1266
 30	0.000725	0.1240		0.1438		0.9498		0.9497		0.9499		0.9498
-
