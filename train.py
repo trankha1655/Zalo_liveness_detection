@@ -298,6 +298,10 @@ def main(args):
                                             Pre = precision,
                                             Rec = recall, 
                                             F1 = f1) 
+            #Save last epoch. 
+            torch.save(state, last_model_file_name)
+            with open(last_model_file_name[:-4]+'.txt') as f:
+                f.write('Last model from epoch: ' + epoch)
 
             # early_stopping monitor
             early_stopping.monitor(monitor=accuracy)
