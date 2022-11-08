@@ -81,7 +81,7 @@ def main(args):
     # load the test set, if want set cityscapes test dataset change none_gt=False
     testdataset = build_dataset_test(args.root, 
                                      args.crop_size,
-                                     gt=True,
+                                     True,
                                      args.test_mode
                                      )
     # Default size image of MobileNet model
