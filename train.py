@@ -102,7 +102,8 @@ def main(args):
         trainLoader = data.DataLoader(traindataset, batch_size=args.batch_size, 
                  num_workers=args.num_workers)
 
-        model.to(device)
+        
+        model = torch.nn.DataParallel(model).cuda()
         criterion = criterion.to(device)
         testLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
                                      shuffle=True, num_workers=args.num_workers)
@@ -155,17 +156,6 @@ def main(args):
     Best_Acc = 0
     # continue training
     if args.resume:
-        logger, lines = recorder.resume_logfile()
-        for index, line in enumerate(lines):
-            lossTr_list.append(float(line.strip().split()[2]))
-            if len(line.strip().split()) != 3:
-                epoch_list.append(int(line.strip().split()[0]))
-                lossVal_list.append(float(line.strip().split()[3]))
-                Acc_list.append(float(line.strip().split()[4]))
-
-                if Best_Acc < Acc_list[:-1]:
-                    Best_Acc = Acc_list[:-1]
-
         if os.path.isfile(args.resume):
             checkpoint = torch.load(args.resume)
             start_epoch = checkpoint['epoch'] + 1
@@ -185,6 +175,22 @@ def main(args):
         else:
             if args.local_rank == 0:
                 print("no checkpoint found at '{}'".format(args.resume))
+
+        logger, lines = recorder.resume_logfile()
+        for index, line in enumerate(lines):
+            lossTr_list.append(float(line.strip().split()[2]))
+            if len(line.strip().split()) != 3:
+                epoch_list.append(int(line.strip().split()[0]))
+                lossVal_list.append(float(line.strip().split()[3]))
+                Acc_list.append(float(line.strip().split()[4]))
+
+                if Best_Acc < Acc_list[:-1]:
+                    Best_Acc = Acc_list[:-1]
+            
+            if index == start_epoch:
+                break
+
+        
     else:
         logger = recorder.initial_logfile()
         logger.flush()

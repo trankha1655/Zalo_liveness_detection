@@ -28,3 +28,4 @@
 Best Validation Epoch 1 Best_Acc is 0.911 Precision is 0.9108499999999999 Recall is 0.9110499999999999 F1 is 0.9109 
 Best Validation Epoch 10 Best_Acc is 0.9215 Precision is 0.9217 Recall is 0.9216500000000001 F1 is 0.9215500000000001 
 Best Validation Epoch 20 Best_Acc is 0.9309000000000001 Precision is 0.9305 Recall is 0.9320999999999999 F1 is 0.93085 
+Best Validation Epoch 30 Best_Acc is 0.9498 Precision is 0.9497 Recall is 0.9499 F1 is 0.9498 
