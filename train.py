@@ -103,7 +103,7 @@ def main(args):
                  num_workers=args.num_workers)
 
         
-        
+        model = torch.nn.DataParallel(model).cuda()
         criterion = criterion.cuda()
         testLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
                                      shuffle=True, num_workers=args.num_workers)
@@ -169,7 +169,16 @@ def main(args):
                 model.load_state_dict(new_stat_dict, strict=True)
             # Read the training weight of a single card, and continue training with a single card this time
             else:
-                model.load_state_dict(checkpoint['model'])
+                check_list = [i for i, v in model.state_dict().items()]
+                if 'module.' in check_list[0]:
+                    new_stat_dict = {}
+                    for k, v in checkpoint['model'].items():
+                        new_stat_dict['module.'+ k[:]] = v
+
+                    model.load_state_dict(new_stat_dict, strict=True)
+                else:
+
+                    model.load_state_dict(checkpoint['model'])
             if args.local_rank == 0:
                 print("loaded checkpoint '{}' (epoch {})".format(args.resume, checkpoint['epoch']))
         else:
@@ -195,8 +204,8 @@ def main(args):
     else:
         logger = recorder.initial_logfile()
         logger.flush()
-    if args.cuda:
-        model = torch.nn.DataParallel(model).cuda()
+    
+        
 
     for epoch in range(start_epoch, args.max_epochs + 1):
         start_time = time.time()
