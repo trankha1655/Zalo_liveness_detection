@@ -212,7 +212,7 @@ def main(args):
         train_start = time.time()
         #WRITE LOG FILE BEFORE TRAINING: PREVENT BUG AFTER TRAINED
         with open(last_model_file_name[:-4]+'.txt', 'w') as f:
-                f.write('Last model from epoch: ' + epoch)
+                f.write('Last model from epoch: ' + str(epoch))
 
         lossTr, lr = train(args= args, 
                             train_loader= trainLoader, 
