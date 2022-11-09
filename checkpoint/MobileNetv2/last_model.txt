@@ -1,0 +1,1 @@
+Last model from epoch: 40
