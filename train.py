@@ -290,6 +290,8 @@ def main(args):
                                             F1 = f1) 
             #Save last epoch. 
             torch.save(state, last_model_file_name)
+            with open(last_model_file_name[:-4]+'.txt', 'w') as f:
+                f.write('Last model from epoch: ' + str(epoch))
             
 
             # early_stopping monitor
