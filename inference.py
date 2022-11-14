@@ -47,7 +47,7 @@ def main(args):
                                         args.crop_size,
                                         gt=False)
     else:
-        testdataset = build_dataset_mp4(args.root, args.crop_size)
+        testdataset = build_dataset_mp4(args.root, args.crop_size, args.frame_num)
         args.batch_size = 1
 
     DataLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
@@ -109,6 +109,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=16,
                         help=" the batch_size is set to 1 when evaluating or testing NOTES:image size should fixed!")
     parser.add_argument('--crop_size', type=int, default=224, help="crop size of image")
+    parser.add_argument('--frame_num', type=int, default=5, help="get frame after number of frames")
     parser.add_argument('--checkpoint', type=str, default='best_model.pth',
                         help="use the file to load the checkpoint for evaluating or testing ")
     parser.add_argument('--save_seg_dir', type=str, default="./outputs/",

@@ -40,13 +40,13 @@ def build_dataset_test(root, crop_size, gt=False, test_mode=False):
     
     return testdataset
 
-def build_dataset_mp4(root, crop_size):
+def build_dataset_mp4(root, crop_size, frame_num=5):
 
     if root =='':
         root ='.'
     mp4_list = root +'/*/*/*.mp4'
     files = glob.glob(mp4_list)
 
-    mp4data= LivenessTestVideo(root= '', crop_size= crop_size, file_txt = files)
+    mp4data= LivenessTestVideo(root= '', crop_size= crop_size, file_txt = files, frame_num= frame_num)
     return mp4data
 

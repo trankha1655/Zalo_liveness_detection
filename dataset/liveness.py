@@ -219,10 +219,11 @@ class LivenessTestDataSet(data.Dataset):
         return image, np.array(size), name
 
 class LivenessTestVideo(data.Dataset):
-    def __init__(self, root, file_txt, crop_size=400):
+    def __init__(self, root, file_txt, crop_size=400, frame_num=5):
         self.files = file_txt
         self.root = root
         self.crop_size = crop_size
+        self.frame_num = frame_num
         
     
     def __len__(self):
@@ -245,7 +246,7 @@ class LivenessTestVideo(data.Dataset):
             success, frame = capture.read()
         
             if success:
-                if frameNr % 5 == 0:
+                if frameNr % self.frame_num == 0:
                     img = Image.fromarray(frame, 'RGB')
                     sample = {'image': img}
                     sampled = composed_transforms(sample)

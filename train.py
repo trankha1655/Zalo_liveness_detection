@@ -118,6 +118,8 @@ def main(args):
                                           pin_memory=True, 
                                           drop_last=False)
 
+        
+
         if not torch.cuda.is_available():
             raise Exception("No GPU found or Wrong gpu id, please run without --cuda")
 
@@ -289,6 +291,7 @@ def main(args):
                 "model": model.state_dict(),
                 'optimizer': optimizer.state_dict()
             }
+            # SAVE BEST MODEL THEN INFERENCE ON PUBLIC TEST
             if accuracy > Best_Acc:
                 Best_Acc = accuracy
                 torch.save(state, model_file_name)
@@ -296,7 +299,7 @@ def main(args):
                                             Acc = accuracy, 
                                             Pre = precision,
                                             Rec = recall, 
-                                            F1 = f1) 
+                                            F1 = f1)
             #Save last epoch. 
             torch.save(state, last_model_file_name)
             with open(last_model_file_name[:-4]+'.txt', 'w') as f:
