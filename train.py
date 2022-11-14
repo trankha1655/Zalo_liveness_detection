@@ -84,6 +84,8 @@ def main(args):
                                      True,
                                      args.test_mode
                                      )
+    inferenceset = testdataset = build_dataset_mp4(args.root, 
+                                                    args.crop_size)
     # Default size image of MobileNet model
     if 'Mobile' in args.model:
         args.crop_size = 224
@@ -108,6 +110,13 @@ def main(args):
         criterion = criterion.cuda()
         testLoader = data.DataLoader(testdataset, batch_size=args.batch_size,
                                      shuffle=True, num_workers=args.num_workers)
+                            
+        inferenceLoader = data.DataLoader(testdataset, 
+                                          batch_size= 1,
+                                          shuffle=False, 
+                                          num_workers=args.num_workers, 
+                                          pin_memory=True, 
+                                          drop_last=False)
 
         if not torch.cuda.is_available():
             raise Exception("No GPU found or Wrong gpu id, please run without --cuda")

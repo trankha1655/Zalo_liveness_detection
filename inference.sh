@@ -1,0 +1,1 @@
+python inference.py --model MobileNetv2 --root .. --checkpoint checkpoint/MobileNetv2/best_model.pth --predict_type predict_mp4

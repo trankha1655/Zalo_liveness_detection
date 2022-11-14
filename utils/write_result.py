@@ -6,8 +6,11 @@ class WriteResult:
         self.args = args
         self.root = args.root
         self.save_dir = args.save_seg_dir  #default: ../checkpoint/MODEL_NAME/
-        self.columns = ["", ""]
+        self.columns = ['fname', 'liveness_score']
         self.df = []
+        
+        temp = pandas.DataFrame([], columns=self.columns)
+        temp.to_csv( os.path.join(self.root, "Predict.csv"), index = False)
         
     def write_file(src, des):
         shutil.copy(src, des)
@@ -34,7 +37,8 @@ class WriteResult:
 
         else:
             name = names[0].split('\\')[-1]
-            
+            name = name.split('/')[-1]
+
             if save_mp4:
                 
                 sub_name = os.path.join(self.save_dir, str(classes))
@@ -46,6 +50,6 @@ class WriteResult:
             self.df.append([name, classes])
 
     def save_df(self):
-        self.df = pandas.DataFrame(self.df, columns=['fname', 'liveness_score'])
+        self.df = pandas.DataFrame(self.df, columns= self.columns)
         
         self.df.to_csv( os.path.join(self.root, "Predict.csv"), index = False)
